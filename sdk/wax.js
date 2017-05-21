@@ -39,7 +39,7 @@ var requirejs,require,define;
          * 扩展子类
          * @param superInstance
          * @param subInstance
-         * @returns {wax.Fn}
+         * @returns new Fn()
          */
         extend:function(superInstance,subInstance){
             /**
@@ -66,18 +66,18 @@ var requirejs,require,define;
 
         /**
          * 扩展requirejs的define，用以实现继承
-         * @param requires
+         * @param dependencies
          * @param factory
          * @param superClass
          */
-        define:function(requires,factory,superClass){
+        define:function(dependencies,factory,superClass){
             var self = this;
 
             //将父类加入到依赖集合中
-            superClass && requires.push(superClass);
+            superClass && dependencies.push(superClass);
 
             //通过requirejs的define获取到依赖实例
-            define(this.getRequirePath(requires),function(){
+            define(this.getRequirePath(dependencies),function(){
                 //有继承对象
                 if(superClass && arguments.length){
                     //父类实例
@@ -101,9 +101,9 @@ var requirejs,require,define;
          * @param requires
          * @param factory
          */
-        require:function(requires,factory){
-            requires = this.getRequirePath(requires);
-            require(requires,factory);
+        require:function(dependencies,factory){
+            dependencies = this.getRequirePath(dependencies);
+            require(dependencies,factory);
         },
 
         /**
